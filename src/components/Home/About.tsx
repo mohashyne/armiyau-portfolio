@@ -117,6 +117,44 @@ const AboutItem = styled(motion.div)`
   }
 `;
 
+const LoadingDots = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0 4px;
+  
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.primary};
+    animation: loading 1.4s infinite;
+    
+    &:nth-child(1) {
+      animation-delay: 0s;
+    }
+    
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
+  
+  @keyframes loading {
+    0%, 80%, 100% {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+`;
+
 const AboutImage = styled(motion.div)`
   text-align: center;
   
@@ -218,7 +256,21 @@ const About: React.FC = () => {
               </div>
               <div className="content">
                 <h5><span>Stats</span></h5>
-                <p>Club football: 250 matches, 350 goals</p>
+                <p>
+                  Club football:
+                  <LoadingDots>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                  </LoadingDots>
+                  matches,
+                  <LoadingDots>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                  </LoadingDots>
+                  goals
+                </p>
               </div>
             </AboutItem>
             
