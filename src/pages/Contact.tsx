@@ -281,15 +281,35 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', message: '' });
+    try {
+      const response = await fetch('https://formspree.io/f/xrgjrnky', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
       
-      // Hide success message after 5 seconds
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1000);
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        console.error('Form submission failed');
+        alert('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const containerVariants = {
@@ -325,16 +345,16 @@ const Contact: React.FC = () => {
       title: "Phone",
       icon: "/assets/images/contact/02.png",
       details: [
-        "+234 XXX XXX XXXX",
-        "+234 XXX XXX XXXX"
+        "+234 813 976 9551",
+        "+234 8036559220"
       ]
     },
     {
       title: "Email",
       icon: "/assets/images/contact/03.png",
       details: [
-        "armiyau@example.com",
-        "business@armiyau.com"
+        "crystalbluetech@gmail.com",
+        "info@armiyau.com"
       ]
     }
   ];
