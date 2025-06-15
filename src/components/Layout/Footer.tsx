@@ -106,23 +106,23 @@ const Footer: React.FC = () => {
           <FollowTitle>Follow Me</FollowTitle>
           <SocialIcons>
             <SocialIcon>
-              <a href="#0" aria-label="Facebook">
-                <i className="fab fa-facebook-f" />
+              <a href="https://x.com/armiyau" target="_blank" rel="noopener noreferrer" className="active" aria-label="X (Twitter)">
+                <i className="fab fa-x-twitter" />
               </a>
             </SocialIcon>
             <SocialIcon>
-              <a href="#0" className="active" aria-label="Twitter">
-                <i className="fab fa-twitter" />
-              </a>
-            </SocialIcon>
-            <SocialIcon>
-              <a href="#0" aria-label="Instagram">
+              <a href="https://instagram.com/armiyau" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <i className="fab fa-instagram" />
               </a>
             </SocialIcon>
             <SocialIcon>
-              <a href="#0" aria-label="LinkedIn">
+              <a href="https://linkedin.com/in/armiyau" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <i className="fab fa-linkedin-in" />
+              </a>
+            </SocialIcon>
+            <SocialIcon>
+              <a href="https://facebook.com/armiyau" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <i className="fab fa-facebook-f" />
               </a>
             </SocialIcon>
           </SocialIcons>

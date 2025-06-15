@@ -122,19 +122,89 @@ const NavLink = styled(Link)<{ active: boolean }>`
   }
 `;
 
-const FollowButton = styled.a`
+const FollowButton = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const FollowButtonTrigger = styled.button`
   background: ${({ theme }) => theme.colors.primary};
   color: white;
   padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[6]};
   border-radius: ${({ theme }) => theme.borderRadius.full};
-  text-decoration: none;
+  border: none;
   font-weight: 600;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  cursor: pointer;
   transition: all ${({ theme }) => theme.transitions.base};
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
   
   &:hover {
     background: ${({ theme }) => theme.colors.accent};
     transform: translateY(-2px);
-    box-shadow: ${({ theme }) => theme.shadows.lg};
+  }
+`;
+
+const FollowDropdown = styled.div<{ isOpen: boolean }>`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  box-shadow: ${({ theme }) => theme.shadows.xl};
+  padding: ${({ theme }) => theme.spacing[4]};
+  min-width: 200px;
+  z-index: ${({ theme }) => theme.zIndex.popover};
+  transform: ${({ isOpen }) => isOpen ? 'translateY(8px) scale(1)' : 'translateY(0) scale(0.95)'};
+  opacity: ${({ isOpen }) => isOpen ? '1' : '0'};
+  visibility: ${({ isOpen }) => isOpen ? 'visible' : 'hidden'};
+  transition: all ${({ theme }) => theme.transitions.base};
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+    background: transparent;
+    padding: ${({ theme }) => theme.spacing[2]} 0;
+  }
+`;
+
+const SocialLink = styled.a`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[3]};
+  padding: ${({ theme }) => theme.spacing[3]};
+  color: ${({ theme }) => theme.colors.secondary};
+  text-decoration: none;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  transition: all ${({ theme }) => theme.transitions.base};
+  
+  &:hover {
+    background: ${({ theme }) => theme.colors.grey[100]};
+    color: ${({ theme }) => theme.colors.primary};
+  }
+  
+  .icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+  }
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    color: white;
+    justify-content: center;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;
 
@@ -191,6 +261,7 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [followDropdownOpen, setFollowDropdownOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -248,8 +319,43 @@ const Header: React.FC = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <FollowButton href="#0" onClick={closeMenu}>
-                Follow Me
+              <FollowButton>
+                <FollowButtonTrigger 
+                  onClick={() => setFollowDropdownOpen(!followDropdownOpen)}
+                >
+                  Follow Me
+                  <i className="fas fa-chevron-down" style={{ fontSize: '12px' }} />
+                </FollowButtonTrigger>
+                <FollowDropdown isOpen={followDropdownOpen}>
+                  <SocialLink 
+                    href="https://x.com/armiyau" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      setFollowDropdownOpen(false);
+                      closeMenu();
+                    }}
+                  >
+                    <div className="icon">
+                      <i className="fab fa-x-twitter" />
+                    </div>
+                    <span>Follow on X</span>
+                  </SocialLink>
+                  <SocialLink 
+                    href="https://instagram.com/armiyau" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      setFollowDropdownOpen(false);
+                      closeMenu();
+                    }}
+                  >
+                    <div className="icon">
+                      <i className="fab fa-instagram" />
+                    </div>
+                    <span>Follow on Instagram</span>
+                  </SocialLink>
+                </FollowDropdown>
               </FollowButton>
             </NavItem>
           </NavMenu>
