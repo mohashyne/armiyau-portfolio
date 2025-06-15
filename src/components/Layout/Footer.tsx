@@ -169,6 +169,9 @@ const Footer: React.FC = () => {
             <Link to="/awards">Awards</Link>
           </FooterNavItem>
           <FooterNavItem>
+            <Link to="/gallery">Gallery</Link>
+          </FooterNavItem>
+          <FooterNavItem>
             <Link to="/contact">Contact</Link>
           </FooterNavItem>
         </FooterNav>
