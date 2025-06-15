@@ -58,6 +58,8 @@ const NavMenu = styled.ul<{ isOpen: boolean }>`
     transform: translateX(${({ isOpen }) => isOpen ? '0' : '100%'});
     transition: transform ${({ theme }) => theme.transitions.base};
     box-shadow: ${({ theme }) => theme.shadows.xl};
+    z-index: ${({ theme }) => theme.zIndex.modal};
+    border-left: 1px solid ${({ theme }) => theme.colors.grey[200]};
   }
 `;
 
@@ -107,12 +109,16 @@ const FollowButton = styled.a`
   }
 `;
 
-const MenuToggle = styled.button`
+const MenuToggle = styled.button<{ isOpen: boolean }>`
   display: none;
   flex-direction: column;
   gap: 4px;
   background: none;
   padding: ${({ theme }) => theme.spacing[2]};
+  cursor: pointer;
+  border: none;
+  z-index: ${({ theme }) => theme.zIndex.modal + 1};
+  position: relative;
   
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: flex;
@@ -123,6 +129,18 @@ const MenuToggle = styled.button`
     height: 3px;
     background: ${({ theme }) => theme.colors.secondary};
     transition: all ${({ theme }) => theme.transitions.base};
+    
+    &:nth-child(1) {
+      transform: ${({ isOpen }) => isOpen ? 'rotate(45deg) translate(6px, 6px)' : 'none'};
+    }
+    
+    &:nth-child(2) {
+      opacity: ${({ isOpen }) => isOpen ? '0' : '1'};
+    }
+    
+    &:nth-child(3) {
+      transform: ${({ isOpen }) => isOpen ? 'rotate(-45deg) translate(6px, -6px)' : 'none'};
+    }
   }
 `;
 
@@ -207,7 +225,7 @@ const Header: React.FC = () => {
             </NavItem>
           </NavMenu>
           
-          <MenuToggle onClick={toggleMenu} aria-label="Toggle menu">
+          <MenuToggle isOpen={menuOpen} onClick={toggleMenu} aria-label="Toggle menu">
             <span />
             <span />
             <span />
