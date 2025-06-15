@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: armiyau-portfolio
+    env: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./build
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Robots-Tag
+        value: index
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
