@@ -44,6 +44,9 @@ const NavMenu = styled.ul<{ isOpen: boolean }>`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing[8]};
+  list-style: none;
+  margin: 0;
+  padding: 0;
   
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     position: fixed;
@@ -60,10 +63,16 @@ const NavMenu = styled.ul<{ isOpen: boolean }>`
     box-shadow: ${({ theme }) => theme.shadows.xl};
     z-index: ${({ theme }) => theme.zIndex.modal};
     border-left: 1px solid ${({ theme }) => theme.colors.grey[200]};
+    pointer-events: ${({ isOpen }) => isOpen ? 'auto' : 'none'};
   }
 `;
 
-const NavItem = styled.li``;
+const NavItem = styled.li`
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    width: 100%;
+    text-align: center;
+  }
+`;
 
 const NavLink = styled(Link)<{ active: boolean }>`
   color: ${({ active, theme }) => 
@@ -72,6 +81,9 @@ const NavLink = styled(Link)<{ active: boolean }>`
   text-decoration: none;
   transition: color ${({ theme }) => theme.transitions.base};
   position: relative;
+  display: block;
+  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
+  cursor: pointer;
   
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
@@ -81,7 +93,8 @@ const NavLink = styled(Link)<{ active: boolean }>`
     content: '';
     position: absolute;
     bottom: -5px;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: ${({ active }) => active ? '100%' : '0'};
     height: 2px;
     background: ${({ theme }) => theme.colors.primary};
@@ -90,6 +103,22 @@ const NavLink = styled(Link)<{ active: boolean }>`
   
   &:hover::after {
     width: 100%;
+  }
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    padding: ${({ theme }) => theme.spacing[4]} ${({ theme }) => theme.spacing[6]};
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    text-align: center;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
+    margin: ${({ theme }) => theme.spacing[1]} 0;
+    
+    &:hover {
+      background: rgba(255, 107, 53, 0.1);
+    }
+    
+    &::after {
+      display: none;
+    }
   }
 `;
 
