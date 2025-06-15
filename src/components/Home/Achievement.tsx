@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -160,6 +160,43 @@ const CounterItem = styled.div`
   }
 `;
 
+const LoadingDots = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.primary};
+    animation: loading 1.4s infinite;
+    
+    &:nth-child(1) {
+      animation-delay: 0s;
+    }
+    
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
+  
+  @keyframes loading {
+    0%, 80%, 100% {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+`;
+
 const ReadMoreButton = styled(motion.a)`
   display: inline-block;
   background: ${({ theme }) => theme.colors.primary};
@@ -177,38 +214,6 @@ const ReadMoreButton = styled(motion.a)`
   }
 `;
 
-interface CounterProps {
-  end: number;
-  duration?: number;
-  start?: number;
-}
-
-const Counter: React.FC<CounterProps> = ({ end, duration = 2000, start = 0 }) => {
-  const [count, setCount] = useState(start);
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  useEffect(() => {
-    if (inView && !hasAnimated) {
-      setHasAnimated(true);
-      let startTime: number;
-      const animate = (timestamp: number) => {
-        if (!startTime) startTime = timestamp;
-        const progress = timestamp - startTime;
-        const percentage = Math.min(progress / duration, 1);
-        const currentCount = Math.floor(start + (end - start) * percentage);
-        setCount(currentCount);
-        
-        if (percentage < 1) {
-          requestAnimationFrame(animate);
-        }
-      };
-      requestAnimationFrame(animate);
-    }
-  }, [inView, hasAnimated, end, duration, start]);
-
-  return <span ref={ref}>{count}</span>;
-};
 
 const Achievement: React.FC = () => {
   const [ref, inView] = useInView({
@@ -276,17 +281,17 @@ const Achievement: React.FC = () => {
             <AchievementText variants={itemVariants}>
               <p>
                 As an official player for Katsina United and a member of Nigeria's U-20 national team, 
-                I've proudly contributed to championship victories in international tournaments, including 
-                gold medals in Norway (2023) and the Poland International Cup (2023). Recognized for my 
-                teamwork and leadership, I earned Katsina United's Top Assist Provider award (2023/24) 
-                and the Most Improved Player honor at Nigeria's U-20 training camp, reflecting my commitment 
-                to growth on and off the pitch.
+                I've achieved remarkable milestones including NPFL Youth League 2024 participation, 
+                making my NPFL debut in 2023 which continues to date, and contributing to our 
+                Katsina State FA Cup victory (2023/2024). My international success includes winning 
+                the Dana Cup 2024 in Denmark and reaching the Norway Cup semi-finals in 2024.
               </p>
               <p>
-                Beyond competitive success, I've dedicated 100+ hours to mentoring young athletes and 
-                received the Academic-Athlete Balance award from Katsina State Sports Council (2023). 
-                My journey is defined by a relentless team-first mindset—whether securing wins for my club, 
-                representing my country, or fostering the next generation of players through community coaching.
+                My national team journey culminated in a third-place finish at the Nigeria U-20 AFCON 2025, 
+                representing my country with pride and determination. Beyond competitive success, I've 
+                dedicated 100+ hours to mentoring young athletes and received recognition for maintaining 
+                academic excellence while pursuing professional football. My journey is defined by a 
+                relentless team-first mindset and commitment to continuous growth.
               </p>
             </AchievementText>
             
@@ -298,7 +303,11 @@ const Achievement: React.FC = () => {
               <CounterItem>
                 <div className="counter-header">
                   <h2 className="title">
-                    <Counter end={402} />
+                    <LoadingDots>
+                      <div className="dot"></div>
+                      <div className="dot"></div>
+                      <div className="dot"></div>
+                    </LoadingDots>
                   </h2>
                 </div>
                 <h4 className="subtitle">Matches</h4>
@@ -307,7 +316,11 @@ const Achievement: React.FC = () => {
               <CounterItem>
                 <div className="counter-header">
                   <h2 className="title">
-                    <Counter end={3} />
+                    <LoadingDots>
+                      <div className="dot"></div>
+                      <div className="dot"></div>
+                      <div className="dot"></div>
+                    </LoadingDots>
                   </h2>
                 </div>
                 <h4 className="subtitle">Player of Year</h4>
@@ -316,7 +329,11 @@ const Achievement: React.FC = () => {
               <CounterItem>
                 <div className="counter-header">
                   <h2 className="title">
-                    <Counter end={365} />
+                    <LoadingDots>
+                      <div className="dot"></div>
+                      <div className="dot"></div>
+                      <div className="dot"></div>
+                    </LoadingDots>
                   </h2>
                 </div>
                 <h4 className="subtitle">Goals</h4>

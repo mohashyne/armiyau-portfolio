@@ -198,38 +198,45 @@ const Pagination = styled.ul`
 const awards = [
   {
     id: 1,
-    title: "Katsina United Midfielder of the Season",
+    title: "Nigeria U-20 AFCON Bronze Medal",
     count: "x1",
     image: "/assets/images/award/01.png",
-    description: "2024 NPFL Midfielder of the Season - the first homegrown winner in club history. This award recognizes my outstanding performances throughout the 2023-24 season, including 83% pass accuracy (Top 5% in NPFL), 2.3 key passes per game, and helping the team achieve a 15-match unbeaten streak when starting."
+    description: "Third Place finish at the Nigeria U-20 African Cup of Nations (2025). This prestigious achievement represents the pinnacle of youth football in Africa, showcasing my ability to perform at the highest international level and contribute to Nigeria's success on the continental stage."
   },
   {
     id: 2,
-    title: "International Tournament Winner",
-    count: "x2",
+    title: "Dana Cup Winner (Denmark)",
+    count: "x1",
     image: "/assets/images/award/02.png",
-    description: "Gold medals from international youth tournaments in Norway (2023) and Poland International Cup (2023). These victories were crucial stepping stones that caught the attention of national team scouts and established my reputation on the international stage."
+    description: "Champion of the prestigious Dana Cup 2024 in Denmark, one of Europe's most competitive youth tournaments. This victory demonstrates my ability to excel in international competition and adapt to different playing styles and conditions."
   },
   {
     id: 3,
-    title: "Man of the Match Awards",
-    count: "x7",
+    title: "Katsina State FA Cup Winner",
+    count: "x1",
     image: "/assets/images/award/03.png",
-    description: "NPFL 'Team of the Week' recognition earned seven times during the 2023-24 season. These consistent performances highlight my ability to deliver standout displays against top-level opposition in Nigerian professional football."
+    description: "Winner of the Katsina State FA Cup (2023/2024 season) with my team. This domestic cup victory highlights my contribution to local football success and my ability to perform in knockout competitions under pressure."
   },
   {
     id: 4,
-    title: "Most Improved Player",
+    title: "Norway Cup Semi-Finalist",
     count: "x1",
     image: "/assets/images/award/04.png",
-    description: "Most Improved Technical Player award from Katsina United coaching staff (2023). This recognition reflects my dedication to continuous development and the 200% increase in goal contributions since my professional debut."
+    description: "Reached the semi-finals of the Norway Cup 2024, one of the world's largest youth football tournaments. This achievement showcases consistent high-level performance in international competition and the ability to compete against the world's best young talents."
   },
   {
     id: 5,
-    title: "Academic-Athlete Balance Award",
+    title: "NPFL Professional Debut",
     count: "x1",
     image: "/assets/images/award/05.png",
-    description: "Received from Katsina State Sports Council (2023) for successfully balancing academic pursuits with professional football commitments, while also dedicating 100+ hours to mentoring young athletes in the community."
+    description: "Made my professional debut in the Nigerian Professional Football League (NPFL) in 2023, continuing to date. This milestone marks the beginning of my professional career and represents years of dedication and hard work in youth development."
+  },
+  {
+    id: 6,
+    title: "NPFL Youth League Participant",
+    count: "x1",
+    image: "/assets/images/award/01.png",
+    description: "Active participant in the NPFL Youth League 2024, demonstrating consistent performance at the highest level of youth football in Nigeria. This platform has been crucial for my development and transition to professional football."
   }
 ];
 
