@@ -9,6 +9,7 @@ import Blog from './pages/Blog';
 import BlogSingle from './pages/BlogSingle';
 import Awards from './pages/Awards';
 import Contact from './pages/Contact';
+import Gallery from './pages/Gallery';
 import ScrollToTop from './components/UI/ScrollToTop';
 import Preloader from './components/UI/Preloader';
 import './App.css';
@@ -26,6 +27,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogSingle />} />
             <Route path="/awards" element={<Awards />} />
+            <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </Layout>

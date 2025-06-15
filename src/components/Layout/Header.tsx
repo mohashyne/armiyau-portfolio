@@ -191,6 +191,11 @@ const Header: React.FC = () => {
               </NavLink>
             </NavItem>
             <NavItem>
+              <NavLink to="/gallery" active={isActive('/gallery')} onClick={closeMenu}>
+                Gallery
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink to="/contact" active={isActive('/contact')} onClick={closeMenu}>
                 Contact
               </NavLink>
