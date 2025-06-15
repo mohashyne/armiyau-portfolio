@@ -34,7 +34,7 @@ A modern, professional React portfolio website for Armiyau Yushau, a talented fo
 
 1. **Clone the repository**
    ```bash
-   git clone [repository-url]
+   git clone https://github.com/mohashyne/armiyau-portfolio.git
    cd armiyau-portfolio
    ```
 
@@ -143,6 +143,20 @@ npm run build
 This creates an optimized production build in the `build` folder.
 
 ### Deployment Options
+
+#### 🌐 Render (Recommended)
+This project is configured for automatic deployment to Render:
+
+1. **Push to GitHub** (already done)
+2. **Connect to Render**:
+   - Go to [Render Dashboard](https://dashboard.render.com)
+   - Click "New" → "Static Site"
+   - Connect your GitHub repository: `mohashyne/armiyau-portfolio`
+   - Render will auto-detect the configuration from `render.yaml`
+3. **Deploy**: Render will automatically build and deploy your site
+4. **Live URL**: Your site will be available at `https://armiyau-portfolio.onrender.com`
+
+#### Other Options
 - **Netlify**: Drag and drop the build folder
 - **Vercel**: Connect GitHub repository for automatic deployments
 - **GitHub Pages**: Use `gh-pages` package
