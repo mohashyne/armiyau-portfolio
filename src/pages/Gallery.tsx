@@ -7,6 +7,30 @@ const GalleryContainer = styled.div`
   background: ${({ theme }) => theme.colors.background};
 `;
 
+const TabContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: ${({ theme }) => theme.spacing[8]};
+  gap: ${({ theme }) => theme.spacing[4]};
+`;
+
+const Tab = styled.button<{ active: boolean }>`
+  padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[6]};
+  border: 2px solid ${({ theme }) => theme.colors.primary};
+  background: ${({ active, theme }) => active ? theme.colors.primary : 'transparent'};
+  color: ${({ active, theme }) => active ? 'white' : theme.colors.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  font-weight: 600;
+  cursor: pointer;
+  transition: all ${({ theme }) => theme.transitions.base};
+  
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary};
+    color: white;
+    transform: translateY(-2px);
+  }
+`;
+
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -123,20 +147,87 @@ const ErrorMessage = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
-interface VideoFile {
+// Photo Grid Styles
+const PhotoGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: ${({ theme }) => theme.spacing[4]};
+  margin-bottom: ${({ theme }) => theme.spacing[8]};
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: ${({ theme }) => theme.spacing[3]};
+  }
+`;
+
+const PhotoCard = styled.div`
+  background: white;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.shadows.md};
+  transition: all ${({ theme }) => theme.transitions.base};
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: ${({ theme }) => theme.shadows.xl};
+  }
+`;
+
+const PhotoWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: ${({ theme }) => theme.colors.grey[100]};
+  overflow: hidden;
+`;
+
+const Photo = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform ${({ theme }) => theme.transitions.base};
+  
+  ${PhotoCard}:hover & {
+    transform: scale(1.05);
+  }
+`;
+
+const PhotoInfo = styled.div`
+  padding: ${({ theme }) => theme.spacing[3]};
+`;
+
+const PhotoTitle = styled.h3`
+  font-size: ${({ theme }) => theme.fontSizes.base};
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.secondary};
+  margin-bottom: ${({ theme }) => theme.spacing[1]};
+`;
+
+const PhotoMeta = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  color: ${({ theme }) => theme.colors.grey[600]};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+`;
+
+interface MediaFile {
   name: string;
   path: string;
-  size: number;
+  type: 'video' | 'photo';
+  size?: number;
 }
 
 const Gallery: React.FC = () => {
-  const [videos, setVideos] = useState<VideoFile[]>([]);
+  const [activeTab, setActiveTab] = useState<'videos' | 'photos'>('videos');
+  const [videos, setVideos] = useState<MediaFile[]>([]);
+  const [photos, setPhotos] = useState<MediaFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Get video files from the media directory
-    const getVideoFiles = () => {
+    const getMediaFiles = () => {
       try {
         // List of video files from the media directory
         const videoFiles = [
@@ -162,21 +253,60 @@ const Gallery: React.FC = () => {
           'fc4b0e76-ddfc-412b-b010-6a4bc418d26e.MP4'
         ];
         
+        // List of photo files from the photos directory (excluding non-photo files)
+        const photoFiles = [
+          '032ba089-2f80-4e4a-8d6d-98f817e8370b.JPG',
+          '0c029a8c-a52e-4d29-9fa3-f2b95f99b231.JPG',
+          '14147ab7-116c-4f08-83e5-ae6906e65846.JPG',
+          '3175e89a-115b-4fa1-a194-0a4c744ed818.JPG',
+          '3f1b9aa9-7128-4f19-98e3-3fb05bda60e9.JPG',
+          '4063c166-aaa5-4905-ad6d-f0918a111208.JPG',
+          '41606b07-4aad-49f1-9451-9c276ea3a8ea.JPG',
+          '48504a34-9404-41d8-8ae6-1164bb3f11ee.JPG',
+          '4d4b1a6a-3020-46b1-9406-d941278e8f08.JPG',
+          '70064237-ccea-4e33-aed3-ce4ace65000d.JPG',
+          '7dd899d0-2eec-436f-9bf8-bc64ab075c44.JPG',
+          '8158f89a-1dae-4946-8e0b-c9ced4788fb1.JPG',
+          '815a496e-cecc-4fee-9f92-646d88b188d6.JPG',
+          '8d990f35-2565-4455-90fb-f1b87c057329.JPG',
+          '96c8498d-4012-4072-bfa6-f018308171f3.JPG',
+          '99c57a77-185f-4fa9-8723-ace1161b17b0.JPG',
+          '9fa20b49-05cb-47f7-b614-710daa48522c.JPG',
+          'a73350c8-cc33-48ad-b7e7-ca569a942a24.JPG',
+          'acd6fb77-46f4-487a-bd56-a1b7a45ab671.JPG',
+          'c7f11936-de9d-47f5-9cba-cf6bc544fb5e.JPG',
+          'c7fe9e38-61ec-4305-8132-a6335703cf42.JPG',
+          'c8356b86-cea6-4283-a6fc-12c9d04fe0a5.JPG',
+          'c9b6479d-9435-4f2b-aa05-2fb9b3e16e81.JPG',
+          'c9c3ba89-37c0-44a8-ac38-7d403c6f0b7e.JPG',
+          'd201296b-e6c1-4eb1-8d9a-44c23e298d43.JPG',
+          'f28454b3-9514-48ea-b75f-4a09a1b29622.JPG',
+          'f5460aa0-deeb-4536-a99d-6b97f40f6e64.JPG'
+        ];
+        
         const videoList = videoFiles.map((filename, index) => ({
           name: `Video ${index + 1}`,
           path: `/assets/media/${filename}`,
-          size: 0 // We don't have size info in frontend, but we could add it
+          type: 'video' as const,
+          size: 0
+        }));
+        
+        const photoList = photoFiles.map((filename, index) => ({
+          name: `Photo ${index + 1}`,
+          path: `/assets/photos/${filename}`,
+          type: 'photo' as const
         }));
         
         setVideos(videoList);
+        setPhotos(photoList);
         setLoading(false);
       } catch (err) {
-        setError('Failed to load video gallery');
+        setError('Failed to load gallery');
         setLoading(false);
       }
     };
 
-    getVideoFiles();
+    getMediaFiles();
   }, []);
 
   const formatFileSize = (bytes: number) => {
@@ -211,36 +341,77 @@ const Gallery: React.FC = () => {
     <GalleryContainer>
       <Container>
         <Header>
-          <Title>Video Gallery</Title>
+          <Title>Media Gallery</Title>
           <Subtitle>
-            Explore my collection of videos showcasing various projects, tutorials, and creative content.
+            Explore my collection of videos and photos showcasing various projects, tutorials, and creative content.
           </Subtitle>
         </Header>
         
-        <VideoGrid>
-          {videos.map((video, index) => (
-            <VideoCard key={index}>
-              <VideoWrapper>
-                <Video
-                  controls
-                  preload="metadata"
-                  poster={undefined}
-                >
-                  <source src={video.path} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </Video>
-              </VideoWrapper>
-              <VideoInfo>
-                <VideoTitle>{video.name}</VideoTitle>
-                <VideoMeta>
-                  <span>MP4 Format</span>
-                  <span>•</span>
-                  <span>{formatFileSize(video.size)}</span>
-                </VideoMeta>
-              </VideoInfo>
-            </VideoCard>
-          ))}
-        </VideoGrid>
+        <TabContainer>
+          <Tab 
+            active={activeTab === 'videos'} 
+            onClick={() => setActiveTab('videos')}
+          >
+            Videos ({videos.length})
+          </Tab>
+          <Tab 
+            active={activeTab === 'photos'} 
+            onClick={() => setActiveTab('photos')}
+          >
+            Photos ({photos.length})
+          </Tab>
+        </TabContainer>
+        
+        {activeTab === 'videos' && (
+          <VideoGrid>
+            {videos.map((video, index) => (
+              <VideoCard key={index}>
+                <VideoWrapper>
+                  <Video
+                    controls
+                    preload="metadata"
+                    poster={undefined}
+                  >
+                    <source src={video.path} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </Video>
+                </VideoWrapper>
+                <VideoInfo>
+                  <VideoTitle>{video.name}</VideoTitle>
+                  <VideoMeta>
+                    <span>MP4 Format</span>
+                    <span>•</span>
+                    <span>{formatFileSize(video.size || 0)}</span>
+                  </VideoMeta>
+                </VideoInfo>
+              </VideoCard>
+            ))}
+          </VideoGrid>
+        )}
+        
+        {activeTab === 'photos' && (
+          <PhotoGrid>
+            {photos.map((photo, index) => (
+              <PhotoCard key={index}>
+                <PhotoWrapper>
+                  <Photo
+                    src={photo.path}
+                    alt={photo.name}
+                    loading="lazy"
+                  />
+                </PhotoWrapper>
+                <PhotoInfo>
+                  <PhotoTitle>{photo.name}</PhotoTitle>
+                  <PhotoMeta>
+                    <span>JPG Format</span>
+                    <span>•</span>
+                    <span>High Quality</span>
+                  </PhotoMeta>
+                </PhotoInfo>
+              </PhotoCard>
+            ))}
+          </PhotoGrid>
+        )}
       </Container>
     </GalleryContainer>
   );

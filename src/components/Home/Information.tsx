@@ -139,7 +139,7 @@ const Information: React.FC = () => {
     {
       icon: "fas fa-weight",
       title: "Weight",
-      info: "85kg / 8500000 cg"
+      info: "55kg / 5500000 cg"
     },
     {
       icon: "fas fa-ruler-vertical",
