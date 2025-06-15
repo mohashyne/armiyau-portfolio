@@ -244,8 +244,9 @@ const About: React.FC = () => {
               <div className="content">
                 <h5><span>Biography</span></h5>
                 <p>
-                  18 y/o Katsina United & Nigeria U-20 player. Trophy winner (Norway/Portland), 
-                  playmaker, and youth mentor – all about team success.
+                  18 y/o Katsina United midfielder and Nigeria U-20 international. NPFL professional 
+                  since 2023, Dana Cup 2024 winner (Denmark), Nigeria U-20 AFCON bronze medalist (2025), 
+                  and Norway Cup semi-finalist. Dedicated to excellence on and off the pitch.
                 </p>
               </div>
             </AboutItem>
