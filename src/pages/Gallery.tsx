@@ -184,6 +184,17 @@ const Video = styled.video`
   }
 `;
 
+const PreviewVideo = styled.video`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all ${({ theme }) => theme.transitions.base};
+
+  &:hover {
+    transform: scale(1.02);
+  }
+`;
+
 const VideoInfo = styled.div`
   padding: ${({ theme }) => theme.spacing[4]};
 `;
@@ -590,14 +601,26 @@ const Gallery: React.FC = () => {
             {videos.map((video, index) => (
               <VideoCard key={index}>
                 <VideoWrapper onClick={() => openModal(video)}>
-                  <Video
+                  <PreviewVideo
                     preload="metadata"
-                    poster={undefined}
                     muted
+                    loop
+                    onMouseEnter={(e) => {
+                      const target = e.target as HTMLVideoElement;
+                      target.currentTime = 0;
+                      target.play().catch(() => {
+                        // Ignore autoplay errors
+                      });
+                    }}
+                    onMouseLeave={(e) => {
+                      const target = e.target as HTMLVideoElement;
+                      target.pause();
+                      target.currentTime = 0;
+                    }}
                   >
                     <source src={video.path} type="video/mp4" />
                     Your browser does not support the video tag.
-                  </Video>
+                  </PreviewVideo>
                   <PlayButton />
                 </VideoWrapper>
                 <VideoInfo>
@@ -605,7 +628,7 @@ const Gallery: React.FC = () => {
                   <VideoMeta>
                     <span>MP4 Format</span>
                     <span>•</span>
-                    <span>HD Quality</span>
+                    <span>HD Quality Preview</span>
                   </VideoMeta>
                 </VideoInfo>
               </VideoCard>
