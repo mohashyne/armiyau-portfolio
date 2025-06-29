@@ -33,10 +33,53 @@ const Logo = styled(Link)`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.secondary};
   text-decoration: none;
-  
+
   img {
     max-height: 40px;
     margin-right: ${({ theme }) => theme.spacing[2]};
+  }
+`;
+
+const CustomLogo = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b35 0%, #f59e0b 50%, #ffd700 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 14px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all ${({ theme }) => theme.transitions.base};
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    border-radius: 50%;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: 45px;
+    height: 45px;
+    font-size: 12px;
   }
 `;
 
@@ -289,7 +332,9 @@ const Header: React.FC = () => {
       <HeaderContainer scrolled={scrolled}>
         <Nav>
           <Logo to="/">
-            <img src="/assets/images/logo/logo.png" alt="Armiyau Yushau" />
+            <CustomLogo>
+              baffa
+            </CustomLogo>
           </Logo>
           
           <NavMenu isOpen={menuOpen}>
